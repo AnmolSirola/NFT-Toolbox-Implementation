@@ -1,4 +1,4 @@
-**Understanding Batch Minting**
+# **Understanding Batch Minting**
 
 Batch minting involves minting multiple NFTs in a single transaction, saving gas fees and potentially speeding up the process. Here's the core difference between on-chain and off-chain methods:
 
