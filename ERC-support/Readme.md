@@ -1,6 +1,4 @@
-## Examples
-
-### **After Initializing the Contract Object**
+## **After Initializing the Contract Object**
 
 Pass the required configurations to draftContract function to create a Solidity File.
 
