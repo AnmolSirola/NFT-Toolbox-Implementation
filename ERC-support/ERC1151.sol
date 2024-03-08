@@ -1,4 +1,4 @@
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.19;
 
 interface ERC1151Receiver {
     function onERC1151Received(address _operator, address _from, uint256 _id, uint256 _value, bytes calldata _data) external returns(bytes4);
@@ -92,8 +92,4 @@ contract ERC1151 {
         ownerToNFCount[_to]++;
         emit TransferSingle(msg.sender, msg.sender, _to, _id, _value);
     }
-
-    event TransferSingle(address indexed _operator, address indexed _from, address indexed _to, uint256 _id, uint256 _value);
-    event Approval(address indexed _owner, address indexed _approved, uint256 indexed _id);
-    event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved);
 }
