@@ -1,0 +1,3 @@
+
+## Use Case
+These are NFTs that can change over time. For example, they may have an associated value that changes based on external factors such as market conditions. To add support for dynamic NFTs, we must modify the smart contract code to include functions that allow for the updating of NFT metadata or other attributes. We also need to add functions to allow for the creation and destruction of NFTs based on certain conditions or events.
