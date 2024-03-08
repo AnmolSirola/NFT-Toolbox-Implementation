@@ -4,10 +4,9 @@
 
 Pass the required configurations to draftContract function to create a Solidity File.
 
- - Standard ERC998
+ - Standard ERC 998
 
-``
-nftToolbox.draftContract({
+```nftToolbox.draftContract({
     baseUri: "ipfs://exampleCID/",
     // Common options
     burnable: false,
@@ -20,13 +19,12 @@ nftToolbox.draftContract({
     extension: "0x0000000000000000000000000000000000000000", // Address of the ERC998 extension contract
     extensionId: 1, // Extension ID for the composable tokens
 });
+```
+
+ - Standard ERC 1151
 
 
- - Standard ERC1151
-
-``
-
-nftToolbox.draftContract({
+```nftToolbox.draftContract({
     baseUri: "ipfs://exampleCID/",
     // Common options
     burnable: false,
@@ -40,4 +38,3 @@ nftToolbox.draftContract({
     nftData: {}, // Mapping for NFT data
     operatorApprovals: {}, // Mapping for operator approvals
 });
-``
