@@ -32,17 +32,4 @@ Batch minting involves minting multiple NFTs in a single transaction, saving gas
 4. **Testing:**
     - Test the offchain batch minting script with test data to ensure that it successfully mints multiple NFTs with corresponding metadata.
 
-### **Integration with Existing System:**
 
-1. **UI Integration:**
-    - Update your UI to allow users to initiate batch minting.
-    - Provide options for users to upload metadata files or specify metadata parameters.
-2. **User Feedback:**
-    - Implement user feedback mechanisms to inform users about the progress of batch minting, especially if it's a time-consuming process.
-
-### **Considerations:**
-
-- **Gas Costs:** Be mindful of gas costs associated with onchain transactions, especially when minting large batches.
-- **Security:** Ensure that the smart contract and batch minting process are secure and resistant to potential vulnerabilities, such as reentrancy attacks.
-- **Documentation:** Clearly document the batch minting process for developers and users.
-- **Error Handling:** Implement robust error handling mechanisms to address any issues that may arise during batch minting.
