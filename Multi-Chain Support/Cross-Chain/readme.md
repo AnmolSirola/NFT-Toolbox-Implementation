@@ -39,19 +39,19 @@ Popular bridging solutions include:
 Each bridge has its own set of functionalities, fees, and security considerations. Evaluate them thoroughly before integration.
 
 - Metadata Synchronization:
+  Maintaining consistency of NFT metadata across chains is crucial. Here are two potential approaches:
+ - Immutable Storage: Store the NFT metadata on a decentralized storage solution like IPFS or Arweave. This ensures it remains unalterable and accessible from any 
+  chain.
+ - Oracles: Utilize oracles, blockchain intermediaries that retrieve data from external sources, to fetch metadata from the origin chain when needed on the target 
+   chain. This requires careful oracle selection and management.
 
-Maintaining consistency of NFT metadata across chains is crucial. Here are two potential approaches:
- - Immutable Storage: Store the NFT metadata on a decentralized storage solution like IPFS or Arweave. This ensures it remains unalterable and accessible from any chain.
- - Oracles: Utilize oracles, blockchain intermediaries that retrieve data from external sources, to fetch metadata from the origin chain when needed on the target chain. This requires careful oracle selection and management.
-
-- NFT Representation:
-
-You'll need to define how cross-chain NFTs will be represented within your NFT-Toolbox project. Consider creating custom data structures that track the chain of origin, the wrapped state (if applicable), and potentially the bridge used for transfer.
+- NFT Representation: We'll need to define how cross-chain NFTs will be represented within your NFT-Toolbox project. Consider creating custom data structures that track the chain of origin, the wrapped state (if applicable), and potentially the bridge used for transfer.
 
 - Complexity:
 
 Be prepared for the complexity involved. Cross-chain NFT integration is significantly more challenging than single-chain support. It requires in-depth understanding of bridging protocols, potential security risks, and evolving cross-chain standards.
-Potential Steps for NFT-Toolbox (GSoC Project Focus):
+
+### Potential Steps for NFT-Toolbox (GSoC Project Focus):
 
 - Research:
 
@@ -59,10 +59,9 @@ Potential Steps for NFT-Toolbox (GSoC Project Focus):
  - Research emerging cross-chain standards, especially CCIP, to stay informed about future landscape changes.
 
 - Scope Definition (Proof-of-Concept):
-
-  - Given the complexity, consider focusing on a proof-of-concept for a GSoC project. This could involve:
-    - Selecting a single bridging solution.
-    - Implementing cross-chain functionality between two supported chains in NFT-Toolbox (e.g., Ethereum and Solana).
+    - Given the complexity, consider focusing on a proof-of-concept for a GSoC project. This could involve:
+      - Selecting a single bridging solution.
+      - Implementing cross-chain functionality between two supported chains in NFT-Toolbox (e.g., Ethereum and Solana).
 
 - Design:
 
