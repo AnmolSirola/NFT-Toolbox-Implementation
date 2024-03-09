@@ -1,8 +1,8 @@
 # NFT-Toolbox-Implementation
 MyApproach to implement various features into NFT-Toolbox during GSOC'24.
 
-#### Notion for in detailed roadmap:
+ Refactored the file structure and code
 
-- http://tinyurl.com/2yh2tdk9
+![2](https://github.com/scorelab/NFT-Toolbox/assets/95535448/94d0f6a9-e7db-41ed-8583-62a9d1e2fd58)
 
 
