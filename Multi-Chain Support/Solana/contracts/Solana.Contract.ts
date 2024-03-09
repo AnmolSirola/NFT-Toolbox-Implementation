@@ -78,3 +78,42 @@ export class Contract {
       { flag: "w" }
     );
   }
+
+  draft(options: DraftOptions): void {
+    // const contractCode = ""; // TODO: Implement contract code generation for Solana
+    const contractCode = `
+      // Simple Solana smart contract
+      program {
+        // Define the state struct
+        struct State {
+          u64 count;
+        }
+
+        // Define the program's entrypoint
+        entrypoint (ctx: Context, instructionData: Buffer) -> ProgramResult {
+          // Parse the instruction data
+          let instruction = parseInstruction(instructionData);
+
+          // Initialize the state
+          let state = State { count: 0 };
+
+          // Perform the requested action
+          if (instruction.method == "increment") {
+            state.count += instruction.args[0];
+          } else if (instruction.method == "decrement") {
+            state.count -= instruction.args[0];
+          }
+
+          // Serialize and save the state
+          let stateData = serialize(state);
+          let stateAccount = &mut ctx.accounts.state;
+          stateAccount.data = stateData;
+
+          // Return the updated state
+          return ProgramResult::Ok(stateData);
+        }
+      } 
+    `;
+     this.print(contractCode);
+    console.log(`Contract created : ${this.dir}`);
+  }
