@@ -13,8 +13,8 @@ nftToolbox.initSolanaCollection({
   name: 'Demo Collection - Solana',
   dir: path.join(__dirname, "Demo Collection - Solana"),
   description: "This is a demo collection for NFT Toolbox in Solana",
-  programId: new PublicKey('GaTJYGhopJDKYgWtjoaz2Gyc2sfRmW9v5haqppdtVxx5'),
-  account: new PublicKey('GaTJYGhopJDKYgWtjoaz2Gyc2sfRmW9v5haqppdtVxx5'),
+  programId: new PublicKey('5zyx93d8GMmKrdKLqMykyQAm5EMMy2vC4GZbGnwQkcMX'),
+  account: new PublicKey('5zyx93d8GMmKrdKLqMykyQAm5EMMy2vC4GZbGnwQkcMX'),
 });
 
 // Generate Solana NFTs
