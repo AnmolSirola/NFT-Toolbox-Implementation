@@ -3,8 +3,8 @@ import fs from "fs";
 import { nftToolbox } from "../src/index";
 import { Keypair } from "@solana/web3.js";
 
-const payer = Keypair.fromSecretKey(Buffer.from("0x7304Cf13eEE8c8C20C6569E2024fB9079184F430", "hex"));
-const programId = new PublicKey("GaTJYGhopJDKYgWtjoaz2Gyc2sfRmW9v5haqppdtVxx5");
+const payer = Keypair.fromSecretKey(Buffer.from("0x087a9d913769E8355f6d25747012995Bc03b80aD", "hex"));
+const programId = new PublicKey("5zyx93d8GMmKrdKLqMykyQAm5EMMy2vC4GZbGnwQkcMX");
 
 nftToolbox.initSolanaContract({
   name: "DemoContract",
