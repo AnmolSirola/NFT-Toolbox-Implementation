@@ -17,7 +17,7 @@ nftToolbox.initSolanaContract({
 });
 
 const demoMintNFT = async () => {
-  const address = "your_solana_wallet_address";
+  const address = "7abc42e5HKiTeaLvNykxZyePXEMy2vC5HXaLeuPkdTA";
 
   let bal = await nftToolbox.readSolanaContract("balanceOf", [address]);
   console.log("Balance: ", bal.toString());
