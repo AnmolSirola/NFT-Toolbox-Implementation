@@ -21,4 +21,4 @@ nftToolbox.draftSolanaContract({
     programData: programData,
 });
 
-nftToolbox.deployEthereumContract();
+nftToolbox.deploySolanaContract();
