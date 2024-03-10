@@ -4,7 +4,7 @@ import { nftToolbox } from "../src/index";
 import { Keypair } from "@solana/web3.js";
 
 const payer = Keypair.fromSecretKey(Buffer.from("0x087a9d913769E8355f6d25747012995Bc03b80aD", "hex"));
-const programData = Buffer.from("GaTJYGhopJDKYgWtjoaz2Gyc2sfRmW9v5haqppdtVxx5", "hex");
+const programData = Buffer.from("5zyx93d8GMmKrdKLqMykyQAm5EMMy2vC4GZbGnwQkcMX", "hex");
 
 nftToolbox.initSolanaContract({
   name: "DemoContract",
