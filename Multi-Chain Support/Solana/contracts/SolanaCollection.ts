@@ -131,3 +131,4 @@ export class Collection {
 			JSON.stringify(metadata, null, 2)
 		);
 	}
+}
