@@ -3,36 +3,6 @@
 ### Axelar's Role:
 Axelar is a decentralized protocol that facilitates secure cross-chain communication and asset transfers between different blockchain networks. In the context of NFTs, Axelar enables the seamless bridging of non-fungible tokens across supported chains, allowing for interoperability and expanded functionality.
 
-### How it Works:
-Axelar's cross-chain NFT implementation relies on its General Message Passing (GMP) system, which allows smart contracts on different chains to communicate with each other. The process involves the following steps:
-
-#### Initiating Transfer:
-
-The user interacts with the source chain's NFT Linker contract to initiate a cross-chain NFT transfer.
-The sendNFT function is called, specifying the destination chain, recipient address, and other necessary parameters.
-
-#### Sending Message:
-The NFT Linker contract on the source chain constructs a cross-chain message payload containing the NFT metadata, destination chain information, and recipient details.
-The message is sent to the Axelar Gateway contract on the source chain using the callContract function.
-
-#### Message Routing:
-The Axelar Gateway receives the message and validates its authenticity and integrity.
-The message is then routed through the Axelar network, which consists of a set of validators responsible for relaying messages between chains.
-The validators reach a consensus on the validity of the message and its intended destination.
-
-#### Execution on Destination Chain:
-Once the message reaches the destination chain, it triggers the _execute function in the NFT Linker contract on that chain.
-The _execute function verifies the authenticity of the message by checking its origin and the sender's address.
-s
-#### Based on the message payload, the NFT Linker contract performs the necessary actions:
-If the NFT originates from the source chain, a new NFT is minted on the destination chain using the original metadata.
-If the NFT is being transferred back to its original chain, the ownership is updated accordingly.
-
-#### Gas Payment:
-Axelar's Gas Service is responsible for handling the payment of gas fees for cross-chain transactions.
-The user includes the required gas payment when initiating the NFT transfer on the source chain.
-The Gas Service ensures that sufficient gas is available on the destination chain to execute the NFT minting or transfer logic.
-
 ## Key Components and Their Implementation:
 
 1. NFT Linker Contract (NftLinker.sol):
@@ -75,3 +45,32 @@ The Gas Service ensures that sufficient gas is available on the destination chai
    - Verify the ownership and metadata of the NFT on the destination chain.
    - Implement error handling and event logging to track the progress and status of the cross-chain NFT transfer.
 
+### How it Works in theoratical:
+Axelar's cross-chain NFT implementation relies on its General Message Passing (GMP) system, which allows smart contracts on different chains to communicate with each other. The process involves the following steps:
+
+#### Initiating Transfer:
+
+The user interacts with the source chain's NFT Linker contract to initiate a cross-chain NFT transfer.
+The sendNFT function is called, specifying the destination chain, recipient address, and other necessary parameters.
+
+#### Sending Message:
+The NFT Linker contract on the source chain constructs a cross-chain message payload containing the NFT metadata, destination chain information, and recipient details.
+The message is sent to the Axelar Gateway contract on the source chain using the callContract function.
+
+#### Message Routing:
+The Axelar Gateway receives the message and validates its authenticity and integrity.
+The message is then routed through the Axelar network, which consists of a set of validators responsible for relaying messages between chains.
+The validators reach a consensus on the validity of the message and its intended destination.
+
+#### Execution on Destination Chain:
+Once the message reaches the destination chain, it triggers the _execute function in the NFT Linker contract on that chain.
+The _execute function verifies the authenticity of the message by checking its origin and the sender's address.
+s
+#### Based on the message payload, the NFT Linker contract performs the necessary actions:
+If the NFT originates from the source chain, a new NFT is minted on the destination chain using the original metadata.
+If the NFT is being transferred back to its original chain, the ownership is updated accordingly.
+
+#### Gas Payment:
+Axelar's Gas Service is responsible for handling the payment of gas fees for cross-chain transactions.
+The user includes the required gas payment when initiating the NFT transfer on the source chain.
+The Gas Service ensures that sufficient gas is available on the destination chain to execute the NFT minting or transfer logic.
