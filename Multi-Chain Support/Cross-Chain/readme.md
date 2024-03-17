@@ -1,75 +1,77 @@
-# Adding Cross-Chain NFT Functionality to NFT-Toolbox
+# Adding Cross-Chain NFT Functionality using Axelar
 
-Integrating cross-chain NFT functionality into NFT-Toolbox is an t highly valuable addition. 
+### Axelar's Role:
+Axelar is a decentralized protocol that facilitates secure cross-chain communication and asset transfers between different blockchain networks. In the context of NFTs, Axelar enables the seamless bridging of non-fungible tokens across supported chains, allowing for interoperability and expanded functionality.
 
-## Understanding Cross-Chain NFT Mechanisms:
+### How it Works:
+Axelar's cross-chain NFT implementation relies on its General Message Passing (GMP) system, which allows smart contracts on different chains to communicate with each other. The process involves the following steps:
 
-There are three primary approaches to achieve cross-chain NFT functionality:
+#### Initiating Transfer:
 
-### Lock-and-Mint:
+The user interacts with the source chain's NFT Linker contract to initiate a cross-chain NFT transfer.
+The sendNFT function is called, specifying the destination chain, recipient address, and other necessary parameters.
 
-This strategy involves locking the original NFT in a smart contract on its native chain (e.g., locking an ERC-721 NFT on Ethereum).
-A representation of the NFT, often called a "wrapped NFT," is then minted on the target chain (e.g., minting a Solana SPL token representing the locked Ethereum NFT). This wrapped NFT essentially acts as a placeholder for the original asset.
-To unlock the original NFT, the wrapped version on the target chain needs to be burned, essentially reversing the process.
+#### Sending Message:
+The NFT Linker contract on the source chain constructs a cross-chain message payload containing the NFT metadata, destination chain information, and recipient details.
+The message is sent to the Axelar Gateway contract on the source chain using the callContract function.
 
-### Burn-and-Mint:
+#### Message Routing:
+The Axelar Gateway receives the message and validates its authenticity and integrity.
+The message is then routed through the Axelar network, which consists of a set of validators responsible for relaying messages between chains.
+The validators reach a consensus on the validity of the message and its intended destination.
 
-This approach focuses on permanently moving the NFT from its native chain.
-The original NFT is burned (destroyed) on its native chain through a smart contract interaction.
-A new NFT with identical properties is minted on the target chain.
-There's no direct way to retrieve the original NFT once burned.
+#### Execution on Destination Chain:
+Once the message reaches the destination chain, it triggers the _execute function in the NFT Linker contract on that chain.
+The _execute function verifies the authenticity of the message by checking its origin and the sender's address.
+s
+#### Based on the message payload, the NFT Linker contract performs the necessary actions:
+If the NFT originates from the source chain, a new NFT is minted on the destination chain using the original metadata.
+If the NFT is being transferred back to its original chain, the ownership is updated accordingly.
 
-### Native Cross-Chain Standards:
+#### Gas Payment:
+Axelar's Gas Service is responsible for handling the payment of gas fees for cross-chain transactions.
+The user includes the required gas payment when initiating the NFT transfer on the source chain.
+The Gas Service ensures that sufficient gas is available on the destination chain to execute the NFT minting or transfer logic.
 
-Emerging standards like the Cross-Chain Interoperability Protocol (CCIP) aim to facilitate direct communication between blockchains.
-This could enable true cross-chain NFTs, allowing them to exist and interact on multiple chains simultaneously without locking or burning.
-CCIP is still under development, and its widespread adoption might take time.
+## Key Components and Their Implementation:
 
-### Implementation Considerations:
+1. NFT Linker Contract (NftLinker.sol):
+   - Purpose: The core smart contract responsible for handling cross-chain NFT transfers.
+   - Implementation:
+     - Inherit from ERC721, AxelarExecutable, and Upgradable contracts.
+     - Define state variables to store information about the original NFT, such as the source chain, operator address, token ID, and metadata.
+     - Implement the `sendNFT` function to initiate cross-chain NFT transfers. This function should handle both minting new NFTs on the destination chain and transferring existing NFTs.
+     - Create internal functions `_sendMintedToken` and `_sendNativeToken` to handle the specific logic for minting and transferring NFTs.
+     - Implement the `_execute` function to process incoming cross-chain messages and perform the necessary actions (minting or transferring) on the destination chain.
+     - Integrate with the Axelar Gateway and Gas Service to facilitate cross-chain communication and gas payments.
 
-- Bridging Infrastructure:
+2. ERC721 Demo Contract (ERC721Demo.sol):
+   - Purpose: A sample ERC721 NFT contract used for testing and demonstration purposes.
+   - Implementation:
+     - Inherit from OpenZeppelin's ERC721 and ERC721URIStorage contracts.
+     - Implement basic NFT functionality, such as minting tokens with metadata using the `mintWithMetadata` function.
+     - Define a constructor that sets the name and symbol of the NFT collection.
+     - Implement any additional features or customizations specific to your NFT use case.
 
-Lock-and-mint and burn-and-mint approaches require bridging infrastructure to facilitate the transfer of NFT data and instructions across chains.
+3. NFT Linker Proxy Contract (NftLinkerProxy.sol):
+   - Purpose: A proxy contract that acts as an upgradeable interface for the NFT Linker contract.
+   - Implementation:
+     - Inherit from the InitProxy contract provided by the Axelar SDK.
+     - Define the `contractId` function to return a unique identifier for the NFT Linker contract.
+     - The proxy contract should delegate calls to the underlying NFT Linker implementation contract.
 
-Popular bridging solutions include:
- - Wormhole: A secure bridge known for its fast transaction processing.
- - LayerZero: Another secure option offering bi-directional bridging capabilities.
- - Chainlink CCIP (still under active development): A promising standard-based approach, but its maturity level might require waiting for  further development.
+4. Deployment and Setup:
+   - Implement a deployment script (index.js) to deploy the NFT Linker and ERC721 Demo contracts on each supported chain.
+   - Use the `deployUpgradable` function from the Axelar SDK to deploy the NFT Linker contract with the necessary constructor arguments (Axelar Gateway address and Gas Service address).
+   - Deploy the ERC721 Demo contract using the `deployContract` function from the Axelar SDK.
+   - Set up the required permissions and configurations for the NFT Linker contract to interact with the Axelar Gateway and Gas Service.
 
-Each bridge has its own set of functionalities, fees, and security considerations. Evaluate them thoroughly before integration.
+5. Cross-Chain NFT Transfer Execution:
+   - Implement the `execute` function in the deployment script to handle the end-to-end process of transferring NFTs across chains.
+   - Mint an initial NFT on the source chain using the ERC721 Demo contract's `mintWithMetadata` function.
+   - Approve the NFT Linker contract to transfer the NFT on behalf of the owner.
+   - Call the `sendNFT` function on the source chain's NFT Linker contract, specifying the destination chain, recipient address, and other necessary parameters.
+   - Wait for the cross-chain message to be processed and the NFT to be minted or transferred on the destination chain.
+   - Verify the ownership and metadata of the NFT on the destination chain.
+   - Implement error handling and event logging to track the progress and status of the cross-chain NFT transfer.
 
-- Metadata Synchronization:
-  Maintaining consistency of NFT metadata across chains is crucial. Here are two potential approaches:
- - Immutable Storage: Store the NFT metadata on a decentralized storage solution like IPFS or Arweave. This ensures it remains unalterable and accessible from any 
-  chain.
- - Oracles: Utilize oracles, blockchain intermediaries that retrieve data from external sources, to fetch metadata from the origin chain when needed on the target 
-   chain. This requires careful oracle selection and management.
-
-- NFT Representation: We'll need to define how cross-chain NFTs will be represented within your NFT-Toolbox project. Consider creating custom data structures that track the chain of origin, the wrapped state (if applicable), and potentially the bridge used for transfer.
-
-- Complexity:
-
-Be prepared for the complexity involved. Cross-chain NFT integration is significantly more challenging than single-chain support. It requires in-depth understanding of bridging protocols, potential security risks, and evolving cross-chain standards.
-
-### Potential Steps for NFT-Toolbox (GSoC Project Focus):
-
-- Research:
-
- - Deeply investigate available bridging solutions like Wormhole or LayerZero.
- - Research emerging cross-chain standards, especially CCIP, to stay informed about future landscape changes.
-
-- Scope Definition (Proof-of-Concept):
-    - Given the complexity, consider focusing on a proof-of-concept for a GSoC project. This could involve:
-      - Selecting a single bridging solution.
-      - Implementing cross-chain functionality between two supported chains in NFT-Toolbox (e.g., Ethereum and Solana).
-
-- Design:
-
-  - Design how cross-chain NFT state will be represented within your project.
-  - Define how your UI will handle user interactions related to cross-chain transfers, displaying the origin chain, wrapped state (if applicable), and potentially the bridge used.
-
-- Integration:
-
-  - Integrate the chosen bridging solution, focusing on either lock-and-mint or burn-and-mint functionality.
-  - Develop code for interacting with the bridge's API to initiate transfers and handle confirmations.
-  - Implement metadata synchronization using your chosen approach (immutable storage or oracles).
