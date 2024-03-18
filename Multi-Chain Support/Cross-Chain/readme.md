@@ -85,7 +85,7 @@ Axelar is a decentralized protocol that facilitates secure cross-chain communica
    - Verify the ownership and metadata of the NFT on the destination chain.
    - Implement error handling and event logging to track the progress and status of the cross-chain NFT transfer.
 
-### How it Works in theoratical:
+### How it works theoratically:
 Axelar's cross-chain NFT implementation relies on its General Message Passing (GMP) system, which allows smart contracts on different chains to communicate with each other. The process involves the following steps:
 
 #### Initiating Transfer:
