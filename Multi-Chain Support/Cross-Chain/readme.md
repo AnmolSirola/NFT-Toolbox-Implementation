@@ -1,5 +1,45 @@
 # Adding Cross-Chain NFT Functionality using Axelar
 
+### Deployment
+
+To deploy the NFT Linker, run the following command:
+
+```bash
+npm run deploy evm/nft-linker [local|testnet]
+```
+
+The aforementioned command pertains to specifying the intended environment for a project to execute on. It provides the option to choose between local and testnet environments by appending either `local` or `testnet` after the command.
+
+An example of its usage is demonstrated as follows: `npm run deploy evm/nft-linker local` or `npm run deploy evm/nft-linker testnet`.
+
+A single NFT is minted to the deployer (`0xBa86A5719722B02a5D5e388999C25f3333c7A9fb`) on each chain.
+
+## Execution
+
+To execute the NFT Linker example, use the following command:
+
+```bash
+npm run execute evm/nft-linker [local|testnet] ${srcChain} ${destChain}
+```
+
+**Default Values**:
+
+-   `srcChain` is `Ethreum`.
+-   `destChain` is `Tezos`. 
+
+**Note**:
+
+It will fail if an attempt is made to send a duplicate NFT to a chain.
+
+## Example
+
+To deploy the NFT Linker locally and send the NFT originally minted on Ethereum to Tezos:
+
+```bash
+npm run deploy evm/nft-linker local
+npm run execute evm/nft-linker local "Ethereum" "Tezos"
+```
+
 ### Axelar's Role:
 Axelar is a decentralized protocol that facilitates secure cross-chain communication and asset transfers between different blockchain networks. In the context of NFTs, Axelar enables the seamless bridging of non-fungible tokens across supported chains, allowing for interoperability and expanded functionality.
 
