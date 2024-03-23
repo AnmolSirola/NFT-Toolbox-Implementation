@@ -1,18 +1,22 @@
+import { readFileSync } from "fs";
 import path from "path";
-import fs from "fs";
 import { nftToolbox } from "../src/index";
 import { InMemorySigner } from "@taquito/signer";
-import { TezosToolkit } from "@taquito/taquito";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const account = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "account.json")).toString()
+  readFileSync(path.join(__dirname, "account.json")).toString()
 );
+
+const privateKey = "edskRuycScUrc5KqgiWZXWFa4STEAxJSs18ZXLDdfbDGkiwPWne1QjD4TwRzfDqYXgMwVN2dkDYHBVhPZZDxGDNDneAVNErRvv";
+const signer = new InMemorySigner(privateKey);
 
 nftToolbox.initTezosCollection({
   name: "Demo Collection - Tezos",
   dir: path.join(__dirname, "Demo Collection - Tezos"),
-  description: "This is a demo collection for NFT Toolbox on Tezos",
+  description: "This is a demo collection for NFT Toolbox",
+  standard: "FA2",
+  signer,
 });
 
 const uploadCollectionExample = async function () {
@@ -26,9 +30,10 @@ const demoSingleNftImage = path.resolve(
   "background",
   "white.png"
 );
+
 const demoSingleNftMetadata = {
-  name: "Demo Single NFT - Tezos",
-  description: "This is a single demo NFT on Tezos",
+  name: "Demo Single NFT",
+  description: "This is a single demo NFT",
   image: "",
   attributes: [
     { trait_type: "color", value: "grey" },
@@ -37,7 +42,7 @@ const demoSingleNftMetadata = {
 };
 
 const uploadSingleExample = async function () {
-  const res = await nftToolbox.uploadSingleTezosNFT(
+  const res = await nftToolbox.uploadSingleNFT(
     demoSingleNftImage,
     demoSingleNftMetadata
   );
@@ -45,12 +50,11 @@ const uploadSingleExample = async function () {
 };
 
 //////////////////////// Select ONE File Storage Platform ////////////////////////
-
-// nftToolbox.initFileStorageService({
-//   service: "pinata",
-//   key: account.PINATA_KEY,
-//   secret: account.PINATA_SECURITY,
-// });
+nftToolbox.initFileStorageService({
+  service: "pinata",
+  key: account.PINATA_KEY,
+  secret: account.PINATA_SECURITY,
+});
 
 // nftToolbox.initFileStorageService({
 //   service: "nft.storage",
@@ -74,9 +78,7 @@ const uploadSingleExample = async function () {
 //   username: account.INFURA_USERNAME,
 //   password: account.INFURA_PASSWORD,
 // });
-
 //////////////////////////////////////////////////////////////////////////////////
 
 uploadCollectionExample();
-
 uploadSingleExample();
