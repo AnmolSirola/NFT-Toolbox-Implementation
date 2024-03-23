@@ -1,15 +1,18 @@
 import { readFileSync } from "fs";
 import path from "path";
 import { nftToolbox } from "../src/index";
-import { AptosAccount, AptosClient, FaucetClient, HexString } from "aptos";
+import * as fcl from "@onflow/fcl";
+import * as types from "@onflow/types";
 
-const privateKey = new HexString("0x7304Cf13eEE8c8C20C6569E2024fB9079184F430");
-const account = new AptosAccount(privateKey.toUint8Array());
+const privateKey = "0x7304Cf13eEE8c8C20C6569E2024fB9079184F430";
+const account = fcl.account(privateKey);
 
-const client = new AptosClient("https://fullnode.devnet.aptoslabs.com/v1");
-const faucetClient = new FaucetClient("https://faucet.devnet.aptoslabs.com", client);
+fcl.config({
+  "accessNode.api": "https://rest-testnet.onflow.org",
+  "discovery.wallet": "https://fcl-discovery.onflow.org/testnet/authn",
+});
 
-nftToolbox.initAptosContract({
+nftToolbox.initFlowContract({
   name: "DemoContract",
   symbol: "DEMO",
   dir: path.join(__dirname, "Contracts"),
@@ -18,11 +21,11 @@ nftToolbox.initAptosContract({
   ),
 });
 
-nftToolbox.draftAptosContract({
+nftToolbox.draftFlowContract({
   account: account,
   baseUri: "ipfs://exampleCID/",
   mintable: true,
   incremental: true,
 });
 
-nftToolbox.deployAptosContract();
+nftToolbox.deployFlowContract();
