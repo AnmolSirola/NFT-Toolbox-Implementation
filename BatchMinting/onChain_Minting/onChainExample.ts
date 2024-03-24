@@ -66,10 +66,3 @@ async function main(): Promise<void> {
   await setMerkleRoot();
   await verifyTokenData();
 }
-
-main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
