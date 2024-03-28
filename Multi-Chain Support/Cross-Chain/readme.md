@@ -1,4 +1,43 @@
 # Adding Cross-Chain NFT Functionality using Axelar
+![GMP](GMP.jpeg)
+
+To implement cross-chain support for NFTs using Axelar's GMP (General Message Passing) system in our project, we can follow a similar approach as wedid for Aptos, Flow, Ethereum, and Solana. Here's a step-by-step explanation of how we can integrate cross-chain functionality into your existing codebase:
+
+1) Smart Contracts:
+
+ - Creating a new directory named `contracts` in our project's root directory to store the cross-chain-related smart contracts.
+ - Inside the `contracts` directory, create the following Solidity files:
+    - `NftLinker.sol`: Implement the main logic for cross-chain NFT transfers, as provided in the previous example. This contract will handle the sending and receiving of NFTs across different chains.
+    - `NftLinkerProxy.sol`: Create a proxy contract that acts as an upgradeable interface for the NFT Linker contract, as shown in the previous example.
+ - Compile the smart contracts using a Solidity compiler compatible with the Axelar GMP SDK.
+
+2) Chain-Specific Deployment:
+
+- In the `deploy` directory, create separate deployment scripts for each supported chain (e.g., `aptos.deploy.ts`, `flow.deploy.ts`, `ethereum.deploy.ts`, `solana.deploy.ts`).
+- In each deployment script, use the `deployUpgradable` function from the Axelar GMP SDK to deploy the `NftLinker` contract with the necessary constructor arguments (Axelar Gateway address and Gas Service address) specific to each chain.
+- Deploy the chain-specific NFT contracts (e.g., `ERC721Demo` for Ethereum) using the appropriate deployment functions provided by the respective chain's SDK or library.
+
+3) Cross-Chain Execution:
+
+- Create a new directory named `crosschain` in your project's root directory to store the cross-chain execution logic.
+- Inside the `crosschain directory`, create a file named `execute.ts`.
+- In execute.ts, implement the execute function that handles the end-to-end process of transferring NFTs across chains, similar to the example provided in the previous prompt.
+- The execute function should perform the following steps:
+  - Mint an initial NFT on the source chain using the chain-specific NFT contract.
+  - Approve the NftLinker contract to transfer the NFT on behalf of the owner.
+  - Call the sendNFT function on the source chain's NftLinker contract, specifying the destination chain, recipient address, and other necessary parameters.
+  - Wait for the cross-chain message to be processed and the NFT to be minted or transferred on the destination chain.
+  - Verify the ownership and metadata of the NFT on the destination chain.
+
+4) Configuration:
+
+- Update the `config.ts` file in your project to include the necessary configurations for cross-chain support, such as the Axelar Gateway addresses, Gas Service addresses, and chain-specific settings.
+
+5) Integration with Existing Codebase:
+
+- Modify the existing scripts (e.g., `generate.ts`, `upload.ts`, `mint.ts`) to include cross-chain functionality as needed.
+
+- For example, in the mint.ts script, you can add an option to specify the destination chain and recipient address when minting an NFT, and then use the execute function from the crosschain directory to initiate the cross-chain transfer.
 
 ### Deployment
 
@@ -105,7 +144,7 @@ The validators reach a consensus on the validity of the message and its intended
 #### Execution on Destination Chain:
 Once the message reaches the destination chain, it triggers the _execute function in the NFT Linker contract on that chain.
 The _execute function verifies the authenticity of the message by checking its origin and the sender's address.
-s
+
 #### Based on the message payload, the NFT Linker contract performs the necessary actions:
 If the NFT originates from the source chain, a new NFT is minted on the destination chain using the original metadata.
 If the NFT is being transferred back to its original chain, the ownership is updated accordingly.
