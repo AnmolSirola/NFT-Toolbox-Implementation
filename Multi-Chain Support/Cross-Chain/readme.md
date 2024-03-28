@@ -22,9 +22,9 @@ To implement cross-chain support for NFTs using Axelar's GMP (General Message Pa
 - Create a new directory named `crosschain` in your project's root directory to store the cross-chain execution logic.
 - Inside the `crosschain directory`, create a file named `execute.ts`.
 - In execute.ts, implement the execute function that handles the end-to-end process of transferring NFTs across chains, similar to the example provided in the previous prompt.
-- The execute function should perform the following steps:
+- The `execute` function should perform the following steps:
   - Mint an initial NFT on the source chain using the chain-specific NFT contract.
-  - Approve the NftLinker contract to transfer the NFT on behalf of the owner.
+  - Approve the `NftLinker` contract to transfer the NFT on behalf of the owner.
   - Call the sendNFT function on the source chain's NftLinker contract, specifying the destination chain, recipient address, and other necessary parameters.
   - Wait for the cross-chain message to be processed and the NFT to be minted or transferred on the destination chain.
   - Verify the ownership and metadata of the NFT on the destination chain.
