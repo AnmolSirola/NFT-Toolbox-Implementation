@@ -1,10 +1,16 @@
+// Sample contract code for Flow.
+// Note: this code is not complete and is just a template for the collection script that is to be implemented
+
+// Import necessary modules
 import fs from "fs";
 import path from "path";
 import * as fcl from "@onflow/fcl";
 import * as t from "@onflow/types";
 
+// Define the type for network options
 type networks = "mainnet" | "testnet";
 
+// Interface defining draft options for a contract
 export interface DraftOptions {
   // Common options
   burnable?: boolean;
@@ -16,6 +22,7 @@ export interface DraftOptions {
   initializerArgs: any[];
 }
 
+// Interface defining deployment configurations
 export interface DeployConfigs {
   accessNode: string;
   network: networks;
@@ -23,6 +30,7 @@ export interface DeployConfigs {
   privateKey: string;
 }
 
+// Interface defining attributes for a contract
 export interface ContractAttributes {
   dir: fs.PathLike;
   name: string;
@@ -33,6 +41,7 @@ export interface ContractAttributes {
   };
 }
 
+// Class representing a contract
 export class Contract {
   dir: fs.PathLike;
   name: string;
@@ -49,6 +58,7 @@ export class Contract {
     }
   }
 
+  // Function to print contract code to file
   print(contractCode: string): void {
     if (!fs.existsSync(this.dir)) {
       fs.mkdirSync(this.dir);
@@ -60,6 +70,7 @@ export class Contract {
     );
   }
 
+  // Function to draft a contract
   draft(options: DraftOptions): void {
     const contractCode = `
       pub contract ${this.name} {
@@ -74,6 +85,7 @@ export class Contract {
     console.log(`Contract created : ${this.dir}`);
   }
 
+  // Function to deploy a contract
   async deploy(): Promise<void> {
     const authorization = fcl.authorize(this.connection.privateKey);
     const tx = fcl.transaction`
@@ -103,6 +115,7 @@ export class Contract {
     };
   }
 
+  // Function to write to the contract
   async write(
     functionName: string,
     args: any[]
@@ -136,6 +149,7 @@ export class Contract {
     return txId;
   }
 
+  // Function to read from the contract
   async read(
     fieldName: string,
     args: any[] = []

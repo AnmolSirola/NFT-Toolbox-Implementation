@@ -1,22 +1,29 @@
+
 import { readFileSync } from "fs";
 import path from "path";
-import { nftToolbox } from "../src/index";
+import { nftToolbox } from "../../../index";
 import * as fcl from "@onflow/fcl";
 import * as types from "@onflow/types";
 
+// Read the account information from JSON file
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const account = JSON.parse(
   readFileSync(path.join(__dirname, "account.json")).toString()
 );
 
+// Define the private key
 const privateKey = "0x7304Cf13eEE8c8C20C6569E2024fB9079184F430";
+
+// Define the Flow account
 const flowAccount = fcl.account(privateKey);
 
+// Configure FCL
 fcl.config({
   "accessNode.api": "https://rest-testnet.onflow.org",
   "discovery.wallet": "https://fcl-discovery.onflow.org/testnet/authn",
 });
 
+// Initialize Flow collection
 nftToolbox.initFlowCollection({
   name: "Demo Collection - Flow",
   dir: path.join(__dirname, "Demo Collection - Flow"),
@@ -24,11 +31,13 @@ nftToolbox.initFlowCollection({
   account: flowAccount,
 });
 
+// Function to upload collection example
 const uploadCollectionExample = async function () {
   const res = await nftToolbox.uploadFlowCollectionNFT();
   console.log(res);
 };
 
+// Define path for single NFT image
 const demoSingleNftImage = path.resolve(
   __dirname,
   "layers",
@@ -36,6 +45,7 @@ const demoSingleNftImage = path.resolve(
   "white.png"
 );
 
+// Define metadata for single NFT
 const demoSingleNftMetadata = {
   name: "Demo Single NFT",
   description: "This is a single demo NFT",
@@ -46,6 +56,7 @@ const demoSingleNftMetadata = {
   ],
 };
 
+// Function to upload single NFT example
 const uploadSingleExample = async function () {
   const res = await nftToolbox.uploadSingleNFT(
     demoSingleNftImage,
@@ -80,10 +91,11 @@ nftToolbox.initFileStorageService({
 
 // nftToolbox.initFileStorageService({
 //   service: "infura",
-//   username: account.INFURA_USERNAME,
-//   password: account.INFURA_PASSWORD,
+//   key: account.INFURA_KEY,
+//   secret: account.INFURA_SECRET,
 // });
 //////////////////////////////////////////////////////////////////////////////////
 
+// Upload collection and single NFT examples
 uploadCollectionExample();
 uploadSingleExample();

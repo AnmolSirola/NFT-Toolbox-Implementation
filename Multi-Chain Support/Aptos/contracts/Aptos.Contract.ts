@@ -1,9 +1,15 @@
+
+// Sample contract code for Aptos. 
+// Note: this code is not complete and is just a template for the contract that is to be implemented
+
 import fs from "fs";
 import path from "path";
 import { AptosClient, AptosAccount, TxnBuilderTypes, BCS } from "aptos";
 
+// Define the supported network types
 type networks = "mainnet" | "testnet";
 
+// Define the options for drafting a contract
 export interface DraftOptions {
   // Common options
   burnable?: boolean;
@@ -14,12 +20,14 @@ export interface DraftOptions {
   moduleCode: string;
 }
 
+// Define the deployment configuration
 export interface DeployConfigs {
   nodeUrl: string;
   network: networks;
   account: AptosAccount;
 }
 
+// Define the contract attributes
 export interface ContractAttributes {
   dir: fs.PathLike;
   name: string;
@@ -30,12 +38,14 @@ export interface ContractAttributes {
   };
 }
 
+// Define the Contract class
 export class Contract {
   dir: fs.PathLike;
   name: string;
   connection: DeployConfigs;
   deployedInstance: { address: string; moduleName: string } | undefined = undefined;
 
+  // Constructor
   constructor(attr: ContractAttributes) {
     this.dir = attr.dir;
     this.name = attr.name;
@@ -46,6 +56,7 @@ export class Contract {
     }
   }
 
+  // Print the contract code to a file
   print(contractCode: string): void {
     if (!fs.existsSync(this.dir)) {
       fs.mkdirSync(this.dir);
@@ -57,6 +68,7 @@ export class Contract {
     );
   }
 
+  // Draft a contract with the specified options
   draft(options: DraftOptions): void {
     const contractCode = `
       module ${options.moduleName} {
@@ -64,9 +76,10 @@ export class Contract {
       }
     `;
     this.print(contractCode);
-    console.log(`Contract created : ${this.dir}`);
+    console.log(`Contract created: ${this.dir}`);
   }
 
+  // Deploy the contract
   async deploy(): Promise<void> {
     const aptosClient = new AptosClient(this.connection.nodeUrl);
     const modulePath = path.join(this.dir.toString(), `${this.name}.move`);
@@ -108,6 +121,7 @@ export class Contract {
     };
   }
 
+  // Write to the contract
   async write(
     functionName: string,
     typeArguments: string[],
@@ -149,6 +163,7 @@ export class Contract {
     return pendingTxn.hash;
   }
 
+  // Read from the contract
   async read(resourcePath: string): Promise<any> {
     if (!this.deployedInstance) {
       throw new Error("Contract has not been deployed");

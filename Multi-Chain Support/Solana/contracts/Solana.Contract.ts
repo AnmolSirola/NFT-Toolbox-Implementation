@@ -1,4 +1,7 @@
-import fs from "fs";
+
+// This is the format and the example of Solana contract this is how the solana contract is to be implemented
+// Note: this contract is not complete and is just a template for the contract to be implemented
+
 import path from "path";
 import { SystemProgram, Keypair, Connection, Transaction, TransactionInstruction,
    PublicKey, sendAndConfirmTransaction, Commitment} from "@solana/web3.js";
@@ -9,6 +12,7 @@ const wasmFilePath = '../../../../native/target/wasm32-unknown-unknown/debug/nat
 
 type networks = "devnet" | "testnet" | "mainnet-beta";
 
+// Define the interface for draft options
 export interface DraftOptions {
   // Solana-specific options
   payer: Keypair;
@@ -16,6 +20,7 @@ export interface DraftOptions {
   programData: Buffer;
 }
 
+// Define the interface for deploy configurations
 export interface DeployConfigs {
   rpc: string;
   network: networks;
@@ -24,10 +29,12 @@ export interface DeployConfigs {
   idl: Idl;
 }
 
+// Define the interface for a deployed instance
 interface DeployedInstance {
   address: string;
 }
 
+// Define the interface for contract attributes
 export interface ContractAttributes {
   dir: fs.PathLike;
   name: string;
@@ -40,6 +47,7 @@ export interface ContractAttributes {
   };
 }
 
+// Define the Contract class
 export class Contract {
   dir: fs.PathLike;
   name: string;
@@ -68,6 +76,7 @@ export class Contract {
     this.idl = attr.connection.idl;
   }
 
+    // Method to print the contract code to a file
   print(contractCode: string): void {
     if (!fs.existsSync(this.dir)) {
       fs.mkdirSync(this.dir);
@@ -112,8 +121,75 @@ export class Contract {
           // Return the updated state
           return ProgramResult::Ok(stateData);
         }
-      } 
+
+        // Parse the instruction data
+        fn parseInstruction(instructionData: &[u8]) -> Instruction {
+          let instruction = deserialize(instructionData).unwrap();
+          return instruction;
+        }
+
+        // Serialize the state
+        fn serialize(state: State) -> Vec<u8> {
+          let stateData = borsh::BorshSerialize::try_to_vec(&state).unwrap();
+          return stateData;
+        }
+
+        // Deserialize the state
+        fn deserialize(stateData: &[u8]) -> Option<Instruction> {
+          let instruction = borsh::BorshDeserialize::try_from_slice(stateData).unwrap();
+          return instruction;
+        }
+
+        // Define the instruction struct
+        #[derive(BorshSerialize, BorshDeserialize)]
+        struct Instruction {
+          method: String,
+          args: Vec<u64>,
+        }
+      }
     `;
-     this.print(contractCode);
+    this.print(contractCode);
     console.log(`Contract created : ${this.dir}`);
   }
+}  
+
+// Creating a async deploy function
+
+// Create a new account to hold the program
+
+// Create the program account
+
+// Sign and send the transaction
+
+// Function to deploy a Solana smart contract in such a way that the code creates a new Solana program account, loads the provided 
+// bytecode into the account, and returns the program account's public key.
+
+// Create a new account for the program
+
+// Build the transaction to deploy the program
+
+// Convert the Uint8Array to a Buffer for data parameter
+
+// Add an instruction to load the program bytes into the program account
+
+// Sign and send the transaction
+
+// add deploy check
+
+// Check if the contract has been deployed
+
+// Create PublicKey instances for the program ID and program account
+
+// Create a TransactionInstruction with the necessary data
+
+// Create a new Transaction and add the instruction to it
+
+// Send and confirm the transaction
+
+// Check if the contract has been deployed
+
+// Create a TransactionInstruction with the necessary data
+
+// Send the encoded transaction with the SendOptions
+
+// Log the result of the method call

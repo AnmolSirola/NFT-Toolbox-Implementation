@@ -1,5 +1,5 @@
 import path from 'path';
-import { nftToolbox } from '../src/index';
+import { nftToolbox } from '../../../index';
 import { Connection, Keypair, PublicKey } from '@solana/web3.js';
 
 // Create a new connection to the Solana cluster

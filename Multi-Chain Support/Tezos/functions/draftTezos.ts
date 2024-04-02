@@ -1,12 +1,16 @@
 import path from "path";
 import fs from "fs";
-import { nftToolbox } from "../src/index";
+import { nftToolbox } from "../../../index";
 import { TezosToolkit } from "@taquito/taquito";
 import { InMemorySigner } from "@taquito/signer";
 
+// Define the secret key
 const secretKey = "edskRuycScUrc5KqgiWZXWFa4STEAxJSs18ZXLDdfbDGkiwPWne1QjD4TwRzfDqYXgMwVN2dkDYHBVhPZZDxGDNDneAVNErRvv";
+
+// Create an InMemorySigner instance with the secret key
 const signer = new InMemorySigner(secretKey);
 
+// Initialize the Tezos contract
 nftToolbox.initTezosContract({
   name: "DemoContract",
   symbol: "DEMO",
@@ -17,6 +21,7 @@ nftToolbox.initTezosContract({
   ),
 });
 
+// Draft the Tezos contract
 nftToolbox.draftTezosContract({
   signer: signer,
   storage: {

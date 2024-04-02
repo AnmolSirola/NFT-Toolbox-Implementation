@@ -1,5 +1,5 @@
 import path from 'path';
-import { nftToolbox } from '../src/index';
+import { nftToolbox } from "../../../index";
 import { TezosToolkit } from '@taquito/taquito';
 import { InMemorySigner } from '@taquito/signer';
 
@@ -10,7 +10,7 @@ const tezos = new TezosToolkit('https://api.tez.ie/rpc/granadanet');
 const privateKey = 'edskRuycScUrc5KqgiWZXWFa4STEAxJSs18ZXLDdfbDGkiwPWne1QjD4TwRzfDqYXgMwVN2dkDYHBVhPZZDxGDNDneAVNErRvv';
 const signer = new InMemorySigner(privateKey);
 
-
+// Initialize the Tezos collection
 nftToolbox.initTezosCollection({
   name: 'Demo Collection - Tezos',
   dir: path.join(__dirname, 'Demo Collection - Tezos'),
@@ -19,7 +19,7 @@ nftToolbox.initTezosCollection({
   signer,
 });
 
-
+// Generate Tezos NFTs
 nftToolbox.generateTezosNFTs({
   dir: path.join(__dirname, 'layers'),
   size: 100,

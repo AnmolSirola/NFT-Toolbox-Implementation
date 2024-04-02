@@ -1,5 +1,5 @@
 import path from 'path';
-import { nftToolbox } from '../src/index';
+import { nftToolbox } from "../../../index";
 import * as fcl from '@onflow/fcl';
 import * as t from '@onflow/types';
 

@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import path from "path";
-import { nftToolbox } from "../src/index";
+import { nftToolbox } from "../../../index";
 import { AptosAccount, HexString } from "aptos";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -11,6 +11,7 @@ const account = JSON.parse(
 const privateKey = new HexString("0x7304Cf13eEE8c8C20C6569E2024fB9079184F430");
 const aptosAccount = new AptosAccount(privateKey.toUint8Array());
 
+// Initialize an Aptos NFT collection using the nftToolbox
 nftToolbox.initAptosCollection({
   name: "Demo Collection - Aptos",
   dir: path.join(__dirname, "Demo Collection - Aptos"),
@@ -18,11 +19,13 @@ nftToolbox.initAptosCollection({
   account: aptosAccount,
 });
 
+// Function to upload an Aptos NFT collection
 const uploadCollectionExample = async function () {
   const res = await nftToolbox.uploadAptosCollectionNFT();
   console.log(res);
 };
 
+// Define the path to a single demo NFT image
 const demoSingleNftImage = path.resolve(
   __dirname,
   "layers",
@@ -30,6 +33,7 @@ const demoSingleNftImage = path.resolve(
   "white.png"
 );
 
+// Define the metadata for a single demo NFT
 const demoSingleNftMetadata = {
   name: "Demo Single NFT",
   description: "This is a single demo NFT",
@@ -40,6 +44,7 @@ const demoSingleNftMetadata = {
   ],
 };
 
+// Function to upload a single NFT
 const uploadSingleExample = async function () {
   const res = await nftToolbox.uploadSingleNFT(
     demoSingleNftImage,
@@ -74,8 +79,8 @@ nftToolbox.initFileStorageService({
 
 // nftToolbox.initFileStorageService({
 //   service: "infura",
-//   username: account.INFURA_USERNAME,
-//   password: account.INFURA_PASSWORD,
+//   key: account.INFURA_KEY,
+//   secret: account.INFURA_SECRET,
 // });
 //////////////////////////////////////////////////////////////////////////////////
 

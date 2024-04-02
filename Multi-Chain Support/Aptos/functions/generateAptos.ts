@@ -1,5 +1,5 @@
 import path from 'path';
-import { nftToolbox } from '../src/index';
+import { nftToolbox } from "../../../index";
 import { AptosClient, AptosAccount, HexString } from 'aptos';
 
 // Create a new instance of AptosClient

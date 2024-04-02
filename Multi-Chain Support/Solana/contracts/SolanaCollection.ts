@@ -1,13 +1,18 @@
+
+// This is the format and the example for Solana collection.ts  this is how it will be implemented
+// Note: this is not complete and is just a template for the collection file that is to be implemented
+
 import { program } from '@project-serum/anchor/dist/cjs/native/system';
 import { Keypair, Connection, PublicKey, sendAndConfirmTransaction, Transaction, TransactionSignature, TransactionInstruction } from '@solana/web3.js';
 
 import fs from "fs";
 import path from "path";
 import canvas from "canvas";
-import { ProgressBar } from "../../helpers/ProgressBar";
+import { ProgressBar } from "../../../helpers/ProgressBar";
 
 const DNA_DELIMITER = "+";
 
+// Define an interface for collection attributes
 interface CollectionAttributes {
 	name: string;
 	dir: fs.PathLike;
@@ -16,6 +21,7 @@ interface CollectionAttributes {
   account: PublicKey;
 }
 
+// Define an interface for the layer schema
 export interface LayerSchema {
 	dir: fs.PathLike;
 	size: number;
@@ -39,11 +45,13 @@ export interface LayerSchema {
   payer: Keypair;
 }
 
+// Define an interface for layer input
 interface LayerInput {
 	name: string;
 	dir?: fs.PathLike;
 }
 
+// Define an interface for layer element
 interface LayerElement {
 	id: number;
 	name: string;
@@ -132,3 +140,39 @@ export class Collection {
 		);
 	}
 }
+
+//Funtions to be implemented after this:
+
+// Setters
+
+// Creation of Layers array
+
+// Creating a NFT Generate Method
+
+// Creating Helper Functions for generation
+
+// Createing a random DNA of element indexes based on rarity weights
+
+// Checking if DNA is already generated
+
+// Selecting elements for each layer based on DNA
+
+// Returning metadata in OpenSea format to matadataList variable
+
+// Shuffling integer array with Fisher-Yates Algorithm
+
+// Creating NFT for DNA, if not done already
+
+// Rendering Images
+
+// Adding Background, if specified
+
+// Adding Layer Elements
+
+// Saving attribute for metadata
+
+// Saving NFT image and Metadata
+
+// UpdatingMetadataWithCID
+
+// Generation Complete

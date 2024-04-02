@@ -1,11 +1,17 @@
+
+// Sample collection code for Aptos. 
+// Note: this code is not complete and is just a template for the collection script that is to be implemented
+
 import fs from "fs";
 import path from "path";
 import canvas from "canvas";
-import { ProgressBar } from "../../helpers/ProgressBar";
+import { ProgressBar } from "../../../helpers/ProgressBar";
 import { AptosClient, AptosAccount, BCS, TxnBuilderTypes } from "aptos";
 
+// Define the delimiter used in DNA strings
 const DNA_DELIMITER = "+";
 
+// Define the attributes of a collection
 interface CollectionAttributes {
   name: string;
   dir: fs.PathLike;
@@ -13,6 +19,7 @@ interface CollectionAttributes {
   account: AptosAccount;
 }
 
+// Define the schema for layers
 export interface LayerSchema {
   dir: fs.PathLike;
   size: number;
@@ -35,11 +42,13 @@ export interface LayerSchema {
   client: AptosClient;
 }
 
+// Define the input for a layer
 interface LayerInput {
   name: string;
   dir?: fs.PathLike;
 }
 
+// Define the structure of a layer element
 interface LayerElement {
   id: number;
   name: string;
@@ -48,6 +57,7 @@ interface LayerElement {
   weight: number;
 }
 
+// Define the structure of a layer
 interface Layer {
   id: number;
   name: string;
@@ -55,11 +65,13 @@ interface Layer {
   totalWeight: number;
 }
 
+// Define the structure of a metadata attribute
 interface MetadataAttribute {
   trait_type: string;
   value: string;
 }
 
+// Define the structure of metadata
 interface Metadata {
   name: string;
   description: string;
@@ -67,6 +79,7 @@ interface Metadata {
   attributes: MetadataAttribute[];
 }
 
+// Define the Collection class
 export class Collection {
   name: string;
   dir: fs.PathLike;
@@ -81,6 +94,7 @@ export class Collection {
   schema?: LayerSchema = undefined;
   layers?: Layer[] = undefined;
 
+  // Constructor
   constructor(attributes: CollectionAttributes) {
     this.name = attributes.name;
     this.description = attributes.description;
@@ -88,9 +102,8 @@ export class Collection {
     this.account = attributes.account;
   }
 
-  // Functions to access file system
+  // Initialize the directory for the collection
   initializeDir() {
-    // Making empty directory for generated NFTs
     if (!this.schema || !this.layers) {
       throw new Error("Schema required for generating NFTs");
     }
@@ -102,13 +115,14 @@ export class Collection {
     fs.mkdirSync(path.join(this.dir.toString(), "metadata"));
   }
 
+  // Read the elements of a directory
   readDirElements(dir: fs.PathLike) {
     return fs.readdirSync(dir);
   }
 
+  // Load an image from a layer element
   async loadImage(element: LayerElement) {
     try {
-      // eslint-disable-next-line no-async-promise-executor
       return new Promise<canvas.Image>(async (resolve) => {
         const image = await canvas.loadImage(element.path);
         resolve(image);
@@ -118,6 +132,7 @@ export class Collection {
     }
   }
 
+  // Save an image to the assets directory
   saveImage(_index: number, canvasInstance: canvas.Canvas) {
     fs.writeFileSync(
       path.join(this.dir.toString(), "assets", `${_index}.png`),
@@ -125,6 +140,7 @@ export class Collection {
     );
   }
 
+  // Save metadata to the metadata directory
   saveMetadata(metadata: Metadata, _index: number) {
     fs.writeFileSync(
       path.join(this.dir.toString(), "metadata", `${_index}.json`),
@@ -149,20 +165,22 @@ export class Collection {
     this.extraMetadata = data;
   }
 
+  // Set the schema for the collection
   setSchema(schema: LayerSchema) {
-    // Function to recursively read images in a Layer directory and return array of Elements
+    // Function to recursively read images in a layer directory and return an array of elements
     const getElements = (dir: fs.PathLike, rarityDelimiter: string) => {
-      // Functions for extracting name and rarity weight from file name
-      // File name is of the form "{name} rarityDelimiter {rarityWeight} . {extension}"
+      // Function to clean the name by removing the rarity delimiter and weight
       const cleanName = (str: string) =>
         path.parse(str).name.split(rarityDelimiter).shift();
+
+      // Function to extract the rarity weight from the file name
       const rarityWeight = (str: string) =>
         path.parse(str).name.split(rarityDelimiter).pop();
 
       return this.readDirElements(dir)
         .filter((item) => !/(^|\/)\.[^/.]/g.test(item))
         .map((i, index) => {
-          //Parsing File name
+          // Parsing file name
           if (i.includes(DNA_DELIMITER)) {
             throw new Error(
               `File name cannot contain "${DNA_DELIMITER}", please fix: ${i}`
@@ -170,16 +188,16 @@ export class Collection {
           }
           const eleName = cleanName(i);
           if (!eleName) {
-            throw new Error(`Error in loading File ${i}`);
+            throw new Error(`Error in loading file ${i}`);
           }
           const eleWeight = i.includes(schema.rarityDelimiter)
             ? rarityWeight(i)
             : schema.rarityDefault;
           if (!eleWeight) {
-            throw new Error(`Error in loading File ${i}`);
+            throw new Error(`Error in loading file ${i}`);
           }
 
-          // Creating Element
+          // Creating element
           const element: LayerElement = {
             id: index,
             name: eleName,
@@ -191,4 +209,4 @@ export class Collection {
         });
     };
   }
-}  
+}

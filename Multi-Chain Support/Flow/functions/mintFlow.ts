@@ -1,17 +1,23 @@
+
 import path from "path";
 import fs from "fs";
-import { nftToolbox } from "../src/index";
+import { nftToolbox } from "../../../index";
 import * as fcl from "@onflow/fcl";
 import * as t from "@onflow/types";
 
+// Define the private key
 const privateKey = "0x7304Cf13eEE8c8C20C6569E2024fB9079184F430";
+
+// Define the Flow account
 const account = fcl.account(privateKey);
 
+// Configure FCL
 fcl.config({
   "accessNode.api": "https://rest-testnet.onflow.org",
   "discovery.wallet": "https://fcl-discovery.onflow.org/testnet/authn",
 });
 
+// Initialize Flow contract with existing deployment
 nftToolbox.initFlowContract({
   name: "DemoContract",
   symbol: "DEMO",
@@ -25,6 +31,7 @@ nftToolbox.initFlowContract({
   },
 });
 
+// Function to mint a new NFT
 const demoMintNFT = async () => {
   const address = "0x7304Cf13eEE8c8C20C6569E2024fB9079184F430";
   let bal = await nftToolbox.readFlowContract("getBalance", [address]);
@@ -38,4 +45,5 @@ const demoMintNFT = async () => {
   console.log("Balance: ", bal.toString());
 };
 
+// Execute minting function
 demoMintNFT();
