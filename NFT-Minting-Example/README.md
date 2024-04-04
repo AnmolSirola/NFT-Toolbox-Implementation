@@ -19,7 +19,3 @@ Open [http://localhost:3000/home](http://localhost:3000/home) with your browser 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 
-## The current UI
-
-![Build UI to mint](https://github.com/AnmolSirola/NFT-Minting/assets/95535448/01ee0ad4-01fc-40e1-9bbd-57e60384fc1f)
-
