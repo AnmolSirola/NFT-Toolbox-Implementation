@@ -30,3 +30,8 @@ My Approach to implement various features into NFT-Toolbox during GSOC'24.
 
 
 [#Issue 9-10 Added onchain and offchain Batch Minting Support](https://github.com/c2siorg/NFT-Toolbox/commit/09e1fd8baca211c7972623066af000af95c97b4c)
+
+####  Issue 11 Adding the UI to mint NFTs on any chain: 
+![home screen](https://github.com/AnmolSirola/NFT-Toolbox-Implementation/assets/95535448/a3704ebe-938b-47a2-b1c8-d655578dc369)
+
+UI Link: https://www.figma.com/file/dvKOTL9ersLMwOmGdbnu6j/Untitled?type=design&node-id=14-2&mode=design
